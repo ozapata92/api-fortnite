@@ -18,3 +18,5 @@ return [
         'secret' => 'example_key'
     ],
 ];
+
+$test = "hola";

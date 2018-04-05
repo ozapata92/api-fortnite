@@ -29,17 +29,28 @@ $app->get('/books', function() {
 $app->post('/login', function(Request $request, Response $response, array $args) {
     $username = isset($request->getParsedBody()['username']) ? ($request->getParsedBody()['username']) : '';
     $password = isset($request->getParsedBody()['password']) ? ($request->getParsedBody()['password']) : '';
+    $secret = "df43%hhh76/((xxXDc1";
 
     // Check credentials
     if($username=='oscar'){
+        $expiredTime = 6000;
+        $time = round(microtime(true)) + $expiredTime;
         $token = array(
             "username" => $username,
-            "password" => $password
+            "exp" => $time
         );
-        $jwt = JWT::encode($token, 'secret_key');
-        echo $jwt;
+
+        $jwt = JWT::encode($token, $secret);
+        
+        echo json_encode(array(
+            'msg' => 'Login correcto',
+            'token' => $jwt
+        ));
     } else {
-        //$jwt = JWT::encode($token, 'secret_keyX');
+        echo json_encode(array(
+            'msg' => '401 Unauthorized',
+            'token' => ''
+        ));
     }
 
 });
