@@ -23,7 +23,7 @@ $app->get('/test', function (Request $request, Response $response, array $args) 
 
 $app->get('/books', function() {
     $cars = array("Volvo", "BMW", "Toyota");
-    echo json_encode($cars);
+    print json_encode($cars);
 });
 
 $app->post('/login', function(Request $request, Response $response, array $args) {
@@ -42,12 +42,12 @@ $app->post('/login', function(Request $request, Response $response, array $args)
 
         $jwt = JWT::encode($token, $secret);
         
-        echo json_encode(array(
+        print json_encode(array(
             'msg' => 'Login correcto',
             'token' => $jwt
         ));
     } else {
-        echo json_encode(array(
+        print json_encode(array(
             'msg' => '401 Unauthorized',
             'token' => ''
         ));
