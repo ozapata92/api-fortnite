@@ -13,14 +13,33 @@ $app->get('/[{name}]', function (Request $request, Response $response, array $ar
 */
 
 // Routes
+use \Firebase\JWT\JWT;
 
 $app->get('/test', function (Request $request, Response $response, array $args) {
 
-    var_dump($request);
-    //var_dump($request->headers);
+    $response->getBody()->write(' Hello ');
+    
 });
 
 $app->get('/books', function() {
     $cars = array("Volvo", "BMW", "Toyota");
     echo json_encode($cars);
+});
+
+$app->post('/login', function(Request $request, Response $response, array $args) {
+    $username = isset($request->getParsedBody()['username']) ? ($request->getParsedBody()['username']) : '';
+    $password = isset($request->getParsedBody()['password']) ? ($request->getParsedBody()['password']) : '';
+
+    // Check credentials
+    if($username=='oscar'){
+        $token = array(
+            "username" => $username,
+            "password" => $password
+        );
+        $jwt = JWT::encode($token, 'secret_key');
+        echo $jwt;
+    } else {
+        //$jwt = JWT::encode($token, 'secret_keyX');
+    }
+
 });
