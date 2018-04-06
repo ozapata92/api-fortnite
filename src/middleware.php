@@ -4,7 +4,7 @@
 use \Firebase\JWT\JWT;
 
 $mw = function ($request, $response, $next) {
-    $secret = "df43%hhh76/((xxXDc1";
+    $secret = $this->get('settings')['secret'];
     $authHeader = $request->getHeader('Authorization');
     $reqPath = $request->getUri()->getPath();
 

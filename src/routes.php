@@ -22,16 +22,16 @@ $app->get('/test', function (Request $request, Response $response, array $args) 
 });
 
 $app->get('/books', function() {
-    $cars = array("Volvo", "BMW", "Toyota");
-    print json_encode($cars);
+    $jsonDummy = json_encode($this->get('settings')['json_dummy']);
+    print json_decode($jsonDummy);
 });
 
 $app->post('/login', function(Request $request, Response $response, array $args) {
     $username = isset($request->getParsedBody()['username']) ? ($request->getParsedBody()['username']) : '';
     $password = isset($request->getParsedBody()['password']) ? ($request->getParsedBody()['password']) : '';
-    $secret = "df43%hhh76/((xxXDc1";
+    $secret = $this->get('settings')['secret'];
 
-    // Check credentials
+    // Check credentials, if all OK, JWT will by created
     if($username=='oscar'){
         $expiredTime = 6000;
         $time = round(microtime(true)) + $expiredTime;
@@ -48,7 +48,7 @@ $app->post('/login', function(Request $request, Response $response, array $args)
         ));
     } else {
         print json_encode(array(
-            'msg' => '401 Unauthorized',
+            'msg' => 'Credenciales incorrectas',
             'token' => ''
         ));
     }
