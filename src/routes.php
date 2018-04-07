@@ -21,9 +21,9 @@ $app->get('/test', function (Request $request, Response $response, array $args) 
     
 });
 
-$app->get('/books', function() {
+$app->get('/api/books', function() {
     $jsonDummy = json_encode($this->get('settings')['json_dummy']);
-    print json_decode($jsonDummy);
+    echo $jsonDummy;
 });
 
 $app->post('/login', function(Request $request, Response $response, array $args) {

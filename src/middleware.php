@@ -28,7 +28,8 @@ $mw = function ($request, $response, $next) {
                 $response->getBody()->write('401 Unauthorized ' . $authHeader[0]);
             }
         } else {
-            $response->getBody()->write('API Rest');
+            $response->getBody()->write('Token not found');
+            $this->logger->info("Access without Token -> " . var_dump($authHeader));
         }
         return $response;
     }
