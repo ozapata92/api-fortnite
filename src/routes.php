@@ -23,7 +23,19 @@ $app->get('/test', function (Request $request, Response $response, array $args) 
 
 $app->get('/api/books', function() {
     $jsonDummy = json_encode($this->get('settings')['json_dummy']);
-    echo $jsonDummy;
+    header('Content-Type: application/json; charset=utf-8');
+    echo $this->get('settings')['json_dummy'];
+});
+
+$app->get('/api/getUser', function() {
+	$url = 'https://api.fortnitetracker.com/v1/profile/pc/kasiu_hcd';
+
+	$headers = array(
+	    'TRN-Api-Key: '. $this->get('settings')['fortniteApiKey'],
+	    'Content-Type: application/json',
+    );
+    echo cUrlGetData($url, null, $headers);
+
 });
 
 $app->post('/login', function(Request $request, Response $response, array $args) {
@@ -54,3 +66,26 @@ $app->post('/login', function(Request $request, Response $response, array $args)
     }
 
 });
+
+function cUrlGetData($url, $post_fields = null, $headers = null) {
+    $ch = curl_init();
+    $timeout = 5;
+    curl_setopt($ch, CURLOPT_URL, $url);
+    if ($post_fields && !empty($post_fields)) {
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $post_fields);
+    }
+    if ($headers && !empty($headers)) {
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+    }
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
+    $data = curl_exec($ch);
+    if (curl_errno($ch)) {
+        echo 'Error:' . curl_error($ch);
+    }
+    curl_close($ch);
+    return $data;
+}
