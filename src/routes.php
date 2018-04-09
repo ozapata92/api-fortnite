@@ -15,27 +15,10 @@ $app->get('/[{name}]', function (Request $request, Response $response, array $ar
 // Routes
 use \Firebase\JWT\JWT;
 
-$app->get('/test', function (Request $request, Response $response, array $args) {
-
-    $response->getBody()->write(' Hello ');
-    
-});
-
-$app->get('/api/books', function() {
+$app->get('/api/test', function() {
     $jsonDummy = json_encode($this->get('settings')['json_dummy']);
     header('Content-Type: application/json; charset=utf-8');
     echo $this->get('settings')['json_dummy'];
-});
-
-$app->get('/api/getUser', function() {
-	$url = 'https://api.fortnitetracker.com/v1/profile/pc/kasiu_hcd';
-
-	$headers = array(
-	    'TRN-Api-Key: '. $this->get('settings')['fortniteApiKey'],
-	    'Content-Type: application/json',
-    );
-    echo cUrlGetData($url, null, $headers);
-
 });
 
 $app->post('/login', function(Request $request, Response $response, array $args) {
